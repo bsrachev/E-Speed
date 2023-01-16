@@ -1,5 +1,6 @@
 using E_Speed.Data;
 using E_Speed.Infrastructure;
+using E_Speed.Services.Shipments;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 // Add services to the container.
+
+builder.Services.AddTransient<IShipmentService, ShipmentService>();
 
 var app = builder.Build();
 
