@@ -34,7 +34,7 @@ namespace E_Speed.Controllers
         }
 
         // GET: Shipments/Details/5
-        public async Task<IActionResult> Details(int? id)
+        /*public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Shipments == null)
             {
@@ -51,32 +51,50 @@ namespace E_Speed.Controllers
             }
 
             return View(shipment);
-        }
+        }*/
 
         // GET: Shipments/Create
         public IActionResult Create()
         {
-            ViewData["AssignedToDeliveryEmployeeId"] = new SelectList(_context.DeliveryEmployees, "Id", "Name");
-            ViewData["ProcessedByOfficeEmployeeId"] = new SelectList(_context.OfficeEmployees, "Id", "Name");
-            return View();
+            //ViewData["AssignedToDeliveryEmployeeId"] = new SelectList(_context.DeliveryEmployees, "Id", "Name");
+            //ViewData["ProcessedByOfficeEmployeeId"] = new SelectList(_context.OfficeEmployees, "Id", "Name");
+            return this.View();
         }
 
         // POST: Shipments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DateAccepted,Sender,Receiver,DeliveryToOffice,DeliveryAddress,Weight,Description,ProcessedByOfficeEmployeeId,AssignedToDeliveryEmployeeId,Price,Status")] Shipment shipment)
+        public IActionResult Create(CreateShipmentFormModel shipmentModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(shipment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return this.View(shipmentModel);
             }
-            ViewData["AssignedToDeliveryEmployeeId"] = new SelectList(_context.DeliveryEmployees, "Id", "Name", shipment.AssignedToDeliveryEmployeeId);
-            ViewData["ProcessedByOfficeEmployeeId"] = new SelectList(_context.OfficeEmployees, "Id", "Name", shipment.ProcessedByOfficeEmployeeId);
-            return View(shipment);
+
+            int shipmentId = this.shipmentService.Create(shipmentModel.Sender,
+                                                      shipmentModel.Receiver,
+                                                      shipmentModel.DateAccepted,
+                                                      shipmentModel.DeliveryToOffice,
+                                                      shipmentModel.DeliveryAddress,
+                                                      shipmentModel.Description,
+                                                      shipmentModel.Price,
+                                                      shipmentModel.Weight,
+                                                      0); //this.User.Id());
+
+            return this.Redirect($"/Shipments/Details/?shipmentId={shipmentId}");
+        }
+
+        //[Authorize]
+        public IActionResult Details(int? shipmentId)
+        {
+            if (shipmentId == null) // || _context.Shipments == null)
+            {
+                return NotFound();
+            }
+
+            var query = this.shipmentService.GetShipmentById(shipmentId.Value);
+
+            return View(query);
         }
 
         // GET: Shipments/Edit/5
