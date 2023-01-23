@@ -15,11 +15,11 @@ namespace E_Speed.Data
 
         public DbSet<Office> Offices { get; init; }
 
-        public DbSet<Client> Clients { get; init; }
+        //public DbSet<Client> Clients { get; init; }
 
-        public DbSet<OfficeEmployee> OfficeEmployees { get; init; }
+        //public DbSet<OfficeEmployee> OfficeEmployees { get; init; }
 
-        public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
+        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
