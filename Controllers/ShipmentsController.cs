@@ -110,8 +110,8 @@ namespace E_Speed.Controllers
             {
                 return NotFound();
             }
-            ViewData["AssignedToDeliveryEmployeeId"] = new SelectList(_context.DeliveryEmployees, "Id", "Name", shipment.AssignedToDeliveryEmployeeId);
-            ViewData["ProcessedByOfficeEmployeeId"] = new SelectList(_context.OfficeEmployees, "Id", "Name", shipment.ProcessedByOfficeEmployeeId);
+            //ViewData["AssignedToDeliveryEmployeeId"] = new SelectList(_context.DeliveryEmployees, "Id", "Name", shipment.AssignedToDeliveryEmployeeId);
+            //ViewData["ProcessedByOfficeEmployeeId"] = new SelectList(_context.OfficeEmployees, "Id", "Name", shipment.ProcessedByOfficeEmployeeId);
             return View(shipment);
         }
 
@@ -147,8 +147,8 @@ namespace E_Speed.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AssignedToDeliveryEmployeeId"] = new SelectList(_context.DeliveryEmployees, "Id", "Name", shipment.AssignedToDeliveryEmployeeId);
-            ViewData["ProcessedByOfficeEmployeeId"] = new SelectList(_context.OfficeEmployees, "Id", "Name", shipment.ProcessedByOfficeEmployeeId);
+            //ViewData["AssignedToDeliveryEmployeeId"] = new SelectList(_context.DeliveryEmployees, "Id", "Name", shipment.AssignedToDeliveryEmployeeId);
+            //ViewData["ProcessedByOfficeEmployeeId"] = new SelectList(_context.OfficeEmployees, "Id", "Name", shipment.ProcessedByOfficeEmployeeId);
             return View(shipment);
         }
 

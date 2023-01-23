@@ -21,11 +21,11 @@ namespace E_Speed.Services.Shipments
 
         public string Description { get; set; }
 
-        public OfficeEmployee ProcessedByOfficeEmployee { get; set; }
+        public User ProcessedByOfficeEmployee { get; set; }
 
         public int ProcessedByOfficeEmployeeId { get; set; }
 
-        public DeliveryEmployee AssignedToDeliveryEmployee { get; set; }
+        public User AssignedToDeliveryEmployee { get; set; }
 
         public int AssignedToDeliveryEmployeeId { get; set; }
 

@@ -12,6 +12,6 @@ namespace E_Speed.Data.Models
         [Required]
         public string Address { get; set; }
 
-        public IEnumerable<OfficeEmployee> OfficeEmployees { get; set; }
+        public IEnumerable<User> OfficeEmployees { get; set; }
     }
 }

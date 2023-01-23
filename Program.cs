@@ -10,7 +10,7 @@ builder.Services.AddDbContext<E_SpeedDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser<int>>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<E_SpeedDbContext>();
 builder.Services.AddControllersWithViews();
 

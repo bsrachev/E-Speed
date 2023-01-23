@@ -1,10 +1,12 @@
 ﻿using E_Speed.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Speed.Data
 {
-    public class E_SpeedDbContext : IdentityDbContext
+    public class E_SpeedDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
+
     {
         public E_SpeedDbContext(DbContextOptions<E_SpeedDbContext> options)
             : base(options)
@@ -38,7 +40,7 @@ namespace E_Speed.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .Entity<OfficeEmployee>()
+                .Entity<User>()
                 .HasOne(e => e.Office)
                 .WithMany(o => o.OfficeEmployees)
                 .HasForeignKey(e => e.OfficeId)
