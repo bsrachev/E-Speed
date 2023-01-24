@@ -18,9 +18,9 @@
 
         public IEnumerable<Shipment> ShipmentsProcessed { get; set; } // for Delivery Employees
 
-        public Office Office { get; set; } // for Office Employees
+        //public Office Office { get; set; } // for Office Employees
 
-        public int OfficeId { get; set; } // for Office Employees
+        //public string OfficeId { get; set; } // for Office Employees
 
         public IEnumerable<Shipment> ShipmentsAssigned { get; set; } // for Office Employees
     }

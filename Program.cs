@@ -1,4 +1,5 @@
 using E_Speed.Data;
+using E_Speed.Data.Models;
 using E_Speed.Infrastructure;
 using E_Speed.Services.Shipments;
 using Microsoft.AspNetCore.Identity;
@@ -6,12 +7,23 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<E_SpeedDbContext>(options => 
+builder.Services.AddDbContext<E_SpeedDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser<int>>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<E_SpeedDbContext>();
+//builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<E_SpeedDbContext>();
+
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+})
+                .AddRoles<IdentityRole<int>>()
+                .AddEntityFrameworkStores<E_SpeedDbContext>();
+
 builder.Services.AddControllersWithViews();
 
 // Add services to the container.
@@ -25,7 +37,7 @@ app.PrepareDatabase();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();    
+    app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else

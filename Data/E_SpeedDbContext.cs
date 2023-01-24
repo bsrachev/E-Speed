@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Speed.Data
 {
-    public class E_SpeedDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
+    public class E_SpeedDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 
     {
         public E_SpeedDbContext(DbContextOptions<E_SpeedDbContext> options)
@@ -17,9 +17,9 @@ namespace E_Speed.Data
 
         public DbSet<Office> Offices { get; init; }
 
-        //public DbSet<Client> Clients { get; init; }
+        public DbSet<EmployeeOffice> EmployeeOffices { get; init; }
 
-        //public DbSet<OfficeEmployee> OfficeEmployees { get; init; }
+        //public DbSet<Client> Clients { get; init; }
 
         //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
 
@@ -39,12 +39,12 @@ namespace E_Speed.Data
                 .HasForeignKey(s => s.AssignedToDeliveryEmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder
+            /*builder
                 .Entity<User>()
                 .HasOne(e => e.Office)
                 .WithMany(o => o.OfficeEmployees)
                 .HasForeignKey(e => e.OfficeId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);*/
 
             base.OnModelCreating(builder);
         }

@@ -15,6 +15,8 @@ namespace E_Speed.Infrastructure
 
             MigrateDatabase(serviceProvider);
 
+            SeedRolesAndAdministrator(serviceProvider);
+
             return app;
         }
 
@@ -25,10 +27,10 @@ namespace E_Speed.Infrastructure
             data.Database.Migrate();
         }
 
-        private static void SeedAdministrator(IServiceProvider services)
+        private static void SeedRolesAndAdministrator(IServiceProvider services)
         {
             var userManager = services.GetRequiredService<UserManager<User>>();
-            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
             Task
                 .Run(async () =>
@@ -38,23 +40,24 @@ namespace E_Speed.Infrastructure
                         return;
                     }
 
-                    var officeEmployeeRole = new IdentityRole { Name = OfficeEmployeeRoleName };
+                    var officeEmployeeRole = new IdentityRole<int> { Name = OfficeEmployeeRoleName };
 
                     await roleManager.CreateAsync(officeEmployeeRole);
 
-                    var deliveryEmployeeRole = new IdentityRole { Name = DeliveryEmployeeRoleName };
+                    var deliveryEmployeeRole = new IdentityRole<int> { Name = DeliveryEmployeeRoleName };
 
                     await roleManager.CreateAsync(deliveryEmployeeRole);
 
-                    var adminRole = new IdentityRole { Name = AdministratorRoleName };
+                    var adminRole = new IdentityRole<int> { Name = AdministratorRoleName };
 
                     await roleManager.CreateAsync(adminRole);
 
                     var user = new User
                     {
-                        Email = "admin@bankorders.com",
+                        Email = "admin@espeed.bg",
                         UserName = "Admin",
-                        FullName = "E-Speed Admin"
+                        FullName = "E-Speed Admin",
+                        IsEmployee = true
                     };
 
                     await userManager.CreateAsync(user, "theadmin");
