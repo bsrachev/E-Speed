@@ -32,14 +32,11 @@
                             @if (this.User.IsAdmin())
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Currencies" asp-action="Index">Currencies</a>
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Employees" asp-action="Index">Employees</a>
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="All">Orders</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Templates" asp-action="All">Templates</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Shipments" asp-action="Index">Shipments</a>
                             </li>
                         }
                     </ul>

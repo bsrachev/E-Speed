@@ -1,7 +1,9 @@
+using BankOrders.Infrastructure;
 using E_Speed.Data;
 using E_Speed.Data.Models;
 using E_Speed.Infrastructure;
 using E_Speed.Services.Shipments;
+using E_Speed.Services.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +31,7 @@ builder.Services.AddControllersWithViews();
 // Add services to the container.
 
 builder.Services.AddTransient<IShipmentService, ShipmentService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -55,6 +58,7 @@ app
     .UseAuthorization()
     .UseEndpoints(endpoints =>
     {
+        endpoints.MapDefaultAreaRoute();
         endpoints.MapDefaultControllerRoute();
         endpoints.MapRazorPages();
     });

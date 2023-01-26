@@ -4,7 +4,7 @@
     {
         public class Roles
         {
-            //public const string AdministratorAreaName = "Admin";
+            public const string AdministratorAreaName = "Admin";
 
             public const string AdministratorRoleName = "Administrator";
             public const string OfficeEmployeeRoleName = "OfficeEmployee";

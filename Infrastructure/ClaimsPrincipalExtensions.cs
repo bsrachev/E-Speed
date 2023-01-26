@@ -11,5 +11,11 @@
 
         public static bool IsAdmin(this ClaimsPrincipal user)
             => user.IsInRole(AdministratorRoleName);
+
+        public static bool IsOfficeEmployee(this ClaimsPrincipal user)
+            => user.IsInRole(OfficeEmployeeRoleName);
+
+        public static bool IsDeliveryEmployee(this ClaimsPrincipal user)
+            => user.IsInRole(DeliveryEmployeeRoleName);
     }
 }

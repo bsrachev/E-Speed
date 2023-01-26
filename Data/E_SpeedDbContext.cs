@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using E_Speed.Services.Users;
 
 namespace E_Speed.Data
 {
@@ -48,5 +49,11 @@ namespace E_Speed.Data
 
             base.OnModelCreating(builder);
         }
+
+        //public DbSet<Client> Clients { get; init; }
+
+        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
+
+        public DbSet<E_Speed.Services.Users.UserServiceModel> UserServiceModel { get; set; }
     }
 }
