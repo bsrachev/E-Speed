@@ -8,7 +8,7 @@
 <h1>Manage Users</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -26,10 +26,11 @@
                         <partial name="_UserPartial" model="@item" />
                     </div>
                 }
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
             </tbody>
         </table>
     </div>
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" />
 </div>
