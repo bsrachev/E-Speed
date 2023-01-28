@@ -11,5 +11,9 @@
         public string Email { get; set; }
 
         public bool IsEmployee { get; set; }
+
+        public bool IsOfficeEmployee { get; set; }
+
+        public bool IsDeliveryEmployee { get; set; }
     }
 }

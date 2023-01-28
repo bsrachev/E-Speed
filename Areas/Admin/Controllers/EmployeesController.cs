@@ -20,18 +20,34 @@
         {
             var users = this.userService.GetAllUsers();
 
-            var query = new EmployeeFormModel
-            {
-                users = users
-            };
-
-            return this.View(query);
+            return this.View(users);
         }
 
-        /*[HttpPost]
-        public IActionResult Index(EmployeeFormModel currencyModel)
+        [HttpPost]
+        public async Task<IActionResult> Index(List<UserServiceModel> users)
         {
-            if (this.currencyService.GetCurrencies().Any(c => c.Code == currencyModel.Code))
+            foreach (var user in users)
+            {
+                if (user.IsOfficeEmployee)
+                {
+                    this.userService.GiveOfficeEmployeeRole(user.Id);
+                }
+                else
+                {
+                    this.userService.RemoveOfficeEmployeeRole(user.Id);
+                }
+
+                if (user.IsDeliveryEmployee)
+                {
+                    this.userService.GiveDeliveryEmployeeRole(user.Id);
+                }
+                else
+                {
+                    this.userService.RemoveDeliveryEmployeeRole(user.Id);
+                }
+            }
+
+            /*if (this.currencyService.GetCurrencies().Any(c => c.Code == currencyModel.Code))
             {
                 TempData[GlobalErrorKey] = CurrencyCodeAlreadyExists;
             }
@@ -44,11 +60,14 @@
                 TempData[GlobalSuccessKey] = SuccessfullyAddedCurrency;
             }
 
-            var currencies = this.currencyService.GetCurrencies();
-                
-            return this.View(currencies);
+            var currencies = this.currencyService.GetCurrencies();*/
+
+            var query = this.userService.GetAllUsers();
+
+            return this.View(query);
         }
 
+        /*
         public IActionResult Delete(int id)
         {
             if (id == 1 || id == 2)

@@ -1,22 +1,23 @@
 ﻿@model E_Speed.Services.Users.UserServiceModel
 
-<form asp-action="_UserPartial">
-    <tr>
-        <td>
-            <input type="hidden" asp-for="Id" />
-            @Html.DisplayFor(modelItem => Model.Id)
-        </td>
-        <td class="col-md-3">
-            @Html.DisplayFor(modelItem => Model.FullName)
-        </td>
-        <td class="col-md-3">
-            @Html.DisplayFor(modelItem => Model.PhoneNumber)
-        </td>
-        <td class="col-md-3">
-            @Html.DisplayFor(modelItem => Model.Email)
-        </td>
-        <td class="col-md-3">
-            <input type="checkbox" asp-for="IsEmployee" />
-        </td>
-    </tr>
-</form>
+<tr>
+    <td>
+        
+        @Html.DisplayFor(modelItem => Model.Id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.FullName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.PhoneNumber)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Email)
+    </td>
+    <td>
+        @Html.CheckBoxFor(modelItem => Model.IsOfficeEmployee)
+    </td>
+    <td>
+        @Html.CheckBoxFor(modelItem => Model.IsDeliveryEmployee)
+    </td>
+</tr>

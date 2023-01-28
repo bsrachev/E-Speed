@@ -1,4 +1,4 @@
-﻿@model EmployeeFormModel
+﻿@model IEnumerable<UserServiceModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,30 +7,50 @@
 
 <h1>Manage Users</h1>
 <hr />
-<div class="row">
-    <div class="col-md-12">
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th>Id</th>
-                    <th>Full Name</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
-                    <th>Is Employee</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.users)
-                {
-                    <div>
-                        <partial name="_UserPartial" model="@item" />
-                    </div>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
 
-<div class="form-group">
-    <input type="submit" value="Save" class="btn btn-primary" />
-</div>
+<form asp-action="Index">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Id)</th>
+                <th>@Html.DisplayNameFor(model => model.FullName)</th>
+                <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.Email)</th>
+                <th>@Html.DisplayNameFor(model => model.IsOfficeEmployee)</th>
+                <th>@Html.DisplayNameFor(model => model.IsDeliveryEmployee)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(m => m.ToList()[i].Id)
+                        @Html.DisplayFor(m => m.ToList()[i].Id)
+                    </td>
+                    <td>
+                        @Html.HiddenFor(m => m.ToList()[i].FullName)
+                        @Html.DisplayFor(m => m.ToList()[i].FullName)
+                    </td>
+                    <td>
+                        @Html.HiddenFor(m => m.ToList()[i].PhoneNumber)
+                        @Html.DisplayFor(m => m.ToList()[i].PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.HiddenFor(m => m.ToList()[i].Email)
+                        @Html.DisplayFor(m => m.ToList()[i].Email)
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(m => m.ToList()[i].IsOfficeEmployee)
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(m => m.ToList()[i].IsDeliveryEmployee)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <button input type="submit" value="Edit" class="btn btn-primary">Save Changes</button>
+</form>
