@@ -18,6 +18,7 @@ namespace E_Speed.Services.Shipments
 
         public int Create(int senderId,
                           string receiverName,
+                          string receiverPhone,
                           DateTime dateAccepted,
                           bool deliveryToOffice,
                           string deliveryAddress,
@@ -27,11 +28,9 @@ namespace E_Speed.Services.Shipments
         {
             var shipment = new Shipment
             {
-                //AccountingDate = DateTime.ParseExact(accountingDate, "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                //System = (OrderSystem)Enum.Parse(typeof(OrderSystem), system, true),
-                //UserCreateId = userId
                 SenderId = senderId,
                 ReceiverName = receiverName,
+                ReceiverPhone = receiverPhone,
                 DateAccepted = dateAccepted,
                 DeliveryToOffice = deliveryToOffice,
                 DeliveryAddress = deliveryAddress,
@@ -39,8 +38,8 @@ namespace E_Speed.Services.Shipments
                 Price = price,
                 Weight = weight,
                 Status = ShipmentStatus.New,
-                AssignedToDeliveryEmployeeId = 1,
-                ProcessedByOfficeEmployeeId = 1
+                AssignedToDeliveryEmployeeId = 0,
+                ProcessedByOfficeEmployeeId = 0
             };
 
             this.data.Shipments.Add(shipment);

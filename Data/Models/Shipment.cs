@@ -4,51 +4,34 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_Speed.Data.Models
 {
-    public class Shipment
+    public class Shipment : BaseShipment
     {
-        public int Id { get; set; }
+        public int TrackingNumber { get; init; }
 
         [Required]
         public DateTime DateAccepted { get; init; }
 
-        public User Sender { get; set; }
+        public DateTime DateDelivered { get; init; }
 
-        [Required]
-        public int SenderId { get; set; }
-
-        [Required]
-        public string ReceiverName { get; set; }
-
-        [Required]
-        public string ReceiverPhone { get; set; }
-
-        public int? ReceiverId { get; set; }
+        public int? ReceiverId { get; init; }
 
         [NotMapped]
-        public User Receiver { get; set; }
+        public User? Receiver { get; init; }
 
         [Required]
-        public bool DeliveryToOffice { get; set; }
+        public decimal Weight { get; init; }
 
         [Required]
-        public string DeliveryAddress { get; set; }
-
-        [Required]
-        public decimal Weight { get; set; }
-
-        [Required]
-        public string Description { get; set; }
+        public decimal Price { get; init; }
 
         public User ProcessedByOfficeEmployee { get; set; }
 
+        [Required]
         public int ProcessedByOfficeEmployeeId { get; set; }
 
         public User AssignedToDeliveryEmployee { get; set; }
 
+        [Required]
         public int AssignedToDeliveryEmployeeId { get; set; }
-
-        public decimal Price { get; set; }
-
-        public ShipmentStatus Status { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using E_Speed.Data.Models;
 using E_Speed.Data.Models.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace E_Speed.Services.Shipments
 {

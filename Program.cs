@@ -2,6 +2,7 @@ using BankOrders.Infrastructure;
 using E_Speed.Data;
 using E_Speed.Data.Models;
 using E_Speed.Infrastructure;
+using E_Speed.Services.Offices;
 using E_Speed.Services.Shipments;
 using E_Speed.Services.Users;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +33,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IShipmentService, ShipmentService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IOfficeService, OfficeService>();
 
 var app = builder.Build();
 

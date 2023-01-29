@@ -1,0 +1,49 @@
+﻿@model IEnumerable<OfficeServiceModel>
+
+@{
+    ViewData["Title"] = "Offices";
+}
+
+<div class="row" style="margin: 2%;">
+    <div style="margin-left: 43%;">
+        <h1>Offices</h1>
+    </div>
+    <div class="col-md-1">
+        <a href="/Admin/Offices/Create" class="btn btn-outline-info btn-circle btn-md">+</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <partial name="_CreateOfficePartial" model="null" />
+
+        <partial name="_EditOfficePartial" model="null" />
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

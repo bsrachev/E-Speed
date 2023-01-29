@@ -74,6 +74,7 @@ namespace E_Speed.Controllers
 
             int shipmentId = this.shipmentService.Create(this.User.Id(),
                                                          shipmentModel.Receiver,
+                                                         shipmentModel.Receiver,
                                                          shipmentModel.DateAccepted,
                                                          shipmentModel.DeliveryToOffice,
                                                          shipmentModel.DeliveryAddress,

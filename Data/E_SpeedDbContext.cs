@@ -14,6 +14,8 @@ namespace E_Speed.Data
         {
         }
 
+        public DbSet<ShipmentRequest> ShipmentRequests { get; init; }
+
         public DbSet<Shipment> Shipments { get; init; }
 
         public DbSet<Office> Offices { get; init; }
@@ -26,6 +28,13 @@ namespace E_Speed.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.HasSequence<int>("ShipmentTrackingNumber")
+                              .StartsAt(10000001).IncrementsBy(1);
+
+            builder.Entity<Shipment>()
+               .Property(x => x.TrackingNumber)
+               .HasDefaultValueSql("NEXT VALUE FOR ShipmentTrackingNumber");
+
             builder
                 .Entity<Shipment>()
                 .HasOne(s => s.ProcessedByOfficeEmployee)
@@ -56,10 +65,6 @@ namespace E_Speed.Data
 
             base.OnModelCreating(builder);
         }
-
-        //public DbSet<Client> Clients { get; init; }
-
-        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
 
         public DbSet<E_Speed.Services.Users.UserServiceModel> UserServiceModel { get; set; }
     }
