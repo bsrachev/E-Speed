@@ -40,6 +40,13 @@ namespace E_Speed.Data
                 .HasForeignKey(s => s.AssignedToDeliveryEmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder
+                .Entity<Shipment>()
+                .HasOne(s => s.Sender)
+                .WithMany(e => e.PersonalShipments)
+                .HasForeignKey(s => s.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             /*builder
                 .Entity<User>()
                 .HasOne(e => e.Office)

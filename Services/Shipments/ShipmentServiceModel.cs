@@ -1,4 +1,5 @@
 ﻿using E_Speed.Data.Models;
+using E_Speed.Data.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace E_Speed.Services.Shipments
@@ -31,6 +32,6 @@ namespace E_Speed.Services.Shipments
 
         public decimal Price { get; set; }
 
-        public int Status { get; set; }
+        public ShipmentStatus Status { get; set; }
     }
 }

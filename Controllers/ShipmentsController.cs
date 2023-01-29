@@ -10,6 +10,7 @@ using E_Speed.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using E_Speed.Models.Shipments;
 using E_Speed.Services.Shipments;
+using E_Speed.Infrastructure;
 
 namespace E_Speed.Controllers
 {
@@ -71,15 +72,16 @@ namespace E_Speed.Controllers
                 return this.View(shipmentModel);
             }
 
-            int shipmentId = this.shipmentService.Create(shipmentModel.Sender,
-                                                      shipmentModel.Receiver,
-                                                      shipmentModel.DateAccepted,
-                                                      shipmentModel.DeliveryToOffice,
-                                                      shipmentModel.DeliveryAddress,
-                                                      shipmentModel.Description,
-                                                      shipmentModel.Price,
-                                                      shipmentModel.Weight,
-                                                      0); //this.User.Id());
+            int shipmentId = this.shipmentService.Create(this.User.Id(),
+                                                         shipmentModel.Receiver,
+                                                         shipmentModel.DateAccepted,
+                                                         shipmentModel.DeliveryToOffice,
+                                                         shipmentModel.DeliveryAddress,
+                                                         shipmentModel.Description,
+                                                         shipmentModel.Price,
+                                                         shipmentModel.Weight); 
+            
+            //var a = this.User.Id();
 
             return this.Redirect($"/Shipments/Details/?shipmentId={shipmentId}");
         }

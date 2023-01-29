@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using E_Speed.Data.Models.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_Speed.Data.Models
 {
@@ -9,11 +11,21 @@ namespace E_Speed.Data.Models
         [Required]
         public DateTime DateAccepted { get; init; }
 
-        [Required]
-        public string Sender { get; set; }
+        public User Sender { get; set; }
 
         [Required]
-        public string Receiver { get; set; }
+        public int SenderId { get; set; }
+
+        [Required]
+        public string ReceiverName { get; set; }
+
+        [Required]
+        public string ReceiverPhone { get; set; }
+
+        public int? ReceiverId { get; set; }
+
+        [NotMapped]
+        public User Receiver { get; set; }
 
         [Required]
         public bool DeliveryToOffice { get; set; }
@@ -37,6 +49,6 @@ namespace E_Speed.Data.Models
 
         public decimal Price { get; set; }
 
-        public int Status { get; set; }
+        public ShipmentStatus Status { get; set; }
     }
 }

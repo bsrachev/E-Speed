@@ -6,8 +6,15 @@
 
     public static class ClaimsPrincipalExtensions
     {
-        public static string Id(this ClaimsPrincipal user)
-            => user.FindFirst(ClaimTypes.NameIdentifier).Value;
+        public static int Id(this ClaimsPrincipal user)
+        {
+            int userId = 0;
+            if (user.HasClaim(claim => claim.Type == ClaimTypes.NameIdentifier))
+            {
+                userId = int.Parse(user.FindFirst(ClaimTypes.NameIdentifier).Value);
+            }
+            return userId;
+        }
 
         public static bool IsAdmin(this ClaimsPrincipal user)
             => user.IsInRole(AdministratorRoleName);
