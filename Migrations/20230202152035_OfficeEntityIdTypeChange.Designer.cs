@@ -4,6 +4,7 @@ using E_Speed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Speed.Migrations
 {
     [DbContext(typeof(E_SpeedDbContext))]
-    partial class E_SpeedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230202152035_OfficeEntityIdTypeChange")]
+    partial class OfficeEntityIdTypeChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,14 +38,18 @@ namespace E_Speed.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OfficeId")
+                    b.Property<string>("OfficeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OfficeId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("OfficeId");
+                    b.HasIndex("OfficeId1");
 
                     b.ToTable("EmployeeOffices");
                 });
@@ -442,7 +448,7 @@ namespace E_Speed.Migrations
 
                     b.HasOne("E_Speed.Data.Models.Office", "Office")
                         .WithMany()
-                        .HasForeignKey("OfficeId")
+                        .HasForeignKey("OfficeId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

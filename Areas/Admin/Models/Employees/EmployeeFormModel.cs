@@ -9,6 +9,6 @@
         //[StringLength(3, MinimumLength = 3, ErrorMessage = "The currency code has to be exactly 3 characters.")]
         //public string Code { get; init; }
 
-        public IEnumerable<UserServiceModel> users;
+        public IEnumerable<UserServiceModel> Users;
     }
 }

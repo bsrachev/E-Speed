@@ -6,7 +6,7 @@
 
         public Office Office { get; set; }
 
-        public string OfficeId { get; set; }
+        public int OfficeId { get; set; }
 
         public User Employee { get; set; }
 

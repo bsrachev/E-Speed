@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using E_Speed.Data;
+﻿using E_Speed.Data;
 using E_Speed.Data.Models;
 
 namespace E_Speed.Services.Offices
@@ -15,9 +13,11 @@ namespace E_Speed.Services.Offices
         public void AddOffice(Office office)
         {
             this.data.Offices.Add(office);
+
+            this.data.SaveChanges();
         }
 
-        public OfficeServiceModel GetOfficeById(string id)
+        public OfficeServiceModel GetOfficeById(int id)
         {
             var office = this.data.Offices.FirstOrDefault(o => o.Id == id);
 
@@ -48,7 +48,7 @@ namespace E_Speed.Services.Offices
 
         public void UpdateOffice(Office office)
         {
-            var existingOffice = GetOfficeById(office.Id);
+            var existingOffice = this.data.Offices.Find(office.Id);
             if (existingOffice == null)
             {
                 return;
@@ -56,6 +56,7 @@ namespace E_Speed.Services.Offices
 
             existingOffice.Name = office.Name;
             existingOffice.Address = office.Address;
+            this.data.SaveChanges();
         }
 
         public void DeleteOffice(string id)

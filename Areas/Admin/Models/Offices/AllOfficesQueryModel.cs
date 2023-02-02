@@ -4,6 +4,8 @@ namespace E_Speed.Areas.Admin.Models.Offices
 {
     public class AllOfficesQueryModel
     {
-        public IEnumerable<OfficeServiceModel> offices;
+        public IEnumerable<OfficeServiceModel> Offices;
+
+        public int? OfficeId;
     }
 }

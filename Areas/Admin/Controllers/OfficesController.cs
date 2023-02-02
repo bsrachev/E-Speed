@@ -1,4 +1,5 @@
-﻿using E_Speed.Data;
+﻿using E_Speed.Areas.Admin.Models.Offices;
+using E_Speed.Data;
 using E_Speed.Data.Models;
 using E_Speed.Services.Offices;
 using Microsoft.AspNetCore.Authorization;
@@ -21,13 +22,55 @@ namespace E_Speed.Areas.Admin.Controllers
         // GET: Office
         public IActionResult Index()
         {
-            var query = this.officeService.GetAllOffices();
+            var query = new AllOfficesQueryModel
+            {
+                Offices = this.officeService.GetAllOffices()
+            };
 
             return View(query);
         }
 
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var query = new AllOfficesQueryModel
+            {
+                Offices = this.officeService.GetAllOffices(),
+                OfficeId = id
+            };
+
+            return View("Index", query);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(OfficeServiceModel model)
+        {
+            if (model.Id == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var office = new Office
+                {
+                    Id = model.Id.Value,
+                    Address = model.Address,
+                    Name = model.Name
+                };
+
+                this.officeService.UpdateOffice(office);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: Office/Details/5
-        public IActionResult Details(string id)
+        public IActionResult Details(int id)
         {
             if (id == null)
             {
@@ -47,25 +90,35 @@ namespace E_Speed.Areas.Admin.Controllers
         // GET: Office/Create
         public IActionResult Create()
         {
-            return View();
+            var query = new AllOfficesQueryModel
+            {
+                Offices = this.officeService.GetAllOffices(),
+                OfficeId = 0
+            };
+
+            return View("Index", query);
         }
 
         // POST: Office/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Name,Address")] Office office)
+        public IActionResult Create(OfficeServiceModel model)
         {
-            if (ModelState.IsValid)
+            if (model.Name != null && model.Address != null)
             {
-                this.data.Add(office);
-                this.data.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                var office = new Office
+                {
+                    Address = model.Address,
+                    Name = model.Name
+                };
+
+                this.officeService.AddOffice(office);
             }
-            return View(office);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Office/Edit/5
-        public IActionResult Edit(string id)
+        /*public IActionResult Edit(string id)
         {
             if (id == null)
             {
@@ -78,29 +131,10 @@ namespace E_Speed.Areas.Admin.Controllers
                 return NotFound();
             }
             return View(office);
-        }
-
-        // POST: Office/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("Id,Name,Address")] Office office)
-        {
-            if (id != office.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                this.data.Update(office);
-                this.data.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(office);
-        }
+        }*/
 
         // GET: Office/Delete/5
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             if (id == null)
             {

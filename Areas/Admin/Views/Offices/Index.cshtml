@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OfficeServiceModel>
+﻿@model E_Speed.Areas.Admin.Models.Offices.AllOfficesQueryModel
 
 @{
     ViewData["Title"] = "Offices";
@@ -16,20 +16,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                Address
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        <partial name="_CreateOfficePartial" model="null" />
+        @if (Model.OfficeId == 0)
+        {
+            <partial name="_CreateOfficePartial" model="new OfficeServiceModel {}" />
+        }
+        else if (Model.OfficeId != null)
+        {
+            <partial name="_EditOfficePartial" model="Model.Offices.First(x => x.Id == Model.OfficeId)" />
+        }
 
-        <partial name="_EditOfficePartial" model="null" />
-
-        @foreach (var item in Model)
+        @foreach (var item in Model.Offices)
         {
             <tr>
                 <td>
@@ -39,7 +44,7 @@
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="Offices" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>

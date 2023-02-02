@@ -6,7 +6,7 @@ namespace E_Speed.Services.Offices
     {
         public void AddOffice(Office office);
 
-        public OfficeServiceModel GetOfficeById(string id);
+        public OfficeServiceModel GetOfficeById(int id);
 
         public IEnumerable<OfficeServiceModel> GetAllOffices();
 

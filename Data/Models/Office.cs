@@ -4,7 +4,7 @@ namespace E_Speed.Data.Models
 {
     public class Office
     {
-        public string Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         public string Name { get; set; }
