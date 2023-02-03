@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using E_Speed.Services.Users;
+using E_Speed.Models.Shipments;
 
 namespace E_Speed.Data
 {
@@ -65,7 +66,5 @@ namespace E_Speed.Data
 
             base.OnModelCreating(builder);
         }
-
-        public DbSet<E_Speed.Services.Users.UserServiceModel> UserServiceModel { get; set; }
     }
 }

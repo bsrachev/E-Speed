@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Speed.Migrations
 {
     [DbContext(typeof(E_SpeedDbContext))]
-    [Migration("20230129200429_ShipmentChanges2")]
-    partial class ShipmentChanges2
+    [Migration("20230202152610_InitialCreate3")]
+    partial class InitialCreate3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,9 +38,8 @@ namespace E_Speed.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("OfficeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OfficeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -53,8 +52,11 @@ namespace E_Speed.Migrations
 
             modelBuilder.Entity("E_Speed.Data.Models.Office", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()

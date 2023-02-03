@@ -69,24 +69,6 @@ namespace E_Speed.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Office/Details/5
-        public IActionResult Details(int id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var office = this.data.Offices.FirstOrDefault(m => m.Id == id);
-
-            if (office == null)
-            {
-                return NotFound();
-            }
-
-            return View(office);
-        }
-
         // GET: Office/Create
         public IActionResult Create()
         {
@@ -117,38 +99,12 @@ namespace E_Speed.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Office/Edit/5
-        /*public IActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var office = this.data.Offices.Find(id);
-            if (office == null)
-            {
-                return NotFound();
-            }
-            return View(office);
-        }*/
-
         // GET: Office/Delete/5
         public IActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            this.officeService.DeleteOffice(id);
 
-            var office = this.data.Offices
-                .FirstOrDefault(m => m.Id == id);
-            if (office == null)
-            {
-                return NotFound();
-            }
-
-            return View(office);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -34,6 +34,12 @@ namespace E_Speed.Controllers
             return this.View(query);
         }
 
+        [Authorize]
+        public IActionResult CreateRequest()
+        {
+            return this.View();
+        }
+
         // GET: Shipments/Details/5
         /*public async Task<IActionResult> Details(int? id)
         {

@@ -2,5 +2,6 @@
 {
     public class ShipmentRequest : BaseShipment
     {
+        public string EmployeeComment { get; set; }
     }
 }

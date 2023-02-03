@@ -59,7 +59,7 @@ namespace E_Speed.Services.Offices
             this.data.SaveChanges();
         }
 
-        public void DeleteOffice(string id)
+        public void DeleteOffice(int id)
         {
             var existingOffice = this.data.Offices.Find(id);
             if (existingOffice == null)
@@ -68,6 +68,7 @@ namespace E_Speed.Services.Offices
             }
 
             this.data.Offices.Remove(existingOffice);
+            this.data.SaveChanges();
         }
     }
 }

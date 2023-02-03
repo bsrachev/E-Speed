@@ -1,4 +1,4 @@
-﻿namespace BankOrders.Infrastructure
+﻿namespace E_Speed.Infrastructure
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Routing;

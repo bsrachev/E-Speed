@@ -161,6 +161,10 @@ namespace E_Speed.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EmployeeComment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Method")
                         .HasColumnType("int");
 

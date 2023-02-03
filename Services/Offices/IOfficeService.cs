@@ -12,6 +12,6 @@ namespace E_Speed.Services.Offices
 
         public void UpdateOffice(Office office);
 
-        public void DeleteOffice(string id);
+        public void DeleteOffice(int id);
     }
 }

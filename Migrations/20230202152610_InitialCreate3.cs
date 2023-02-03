@@ -5,10 +5,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace E_Speed.Migrations
 {
-    public partial class InitialCreate2 : Migration
+    public partial class InitialCreate3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateSequence<int>(
+                name: "ShipmentTrackingNumber",
+                startValue: 10000001L);
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -56,13 +60,32 @@ namespace E_Speed.Migrations
                 name: "Offices",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Offices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserServiceModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsEmployee = table.Column<bool>(type: "bit", nullable: false),
+                    IsOfficeEmployee = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeliveryEmployee = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserServiceModel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,23 +195,53 @@ namespace E_Speed.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ShipmentRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SenderId = table.Column<int>(type: "int", nullable: false),
+                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReceiverPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeliveryToOffice = table.Column<bool>(type: "bit", nullable: false),
+                    DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Method = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShipmentRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShipmentRequests_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Shipments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    TrackingNumber = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR ShipmentTrackingNumber"),
                     DateAccepted = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Sender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Receiver = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DeliveryToOffice = table.Column<bool>(type: "bit", nullable: false),
-                    DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateDelivered = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReceiverId = table.Column<int>(type: "int", nullable: true),
                     Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ProcessedByOfficeEmployeeId = table.Column<int>(type: "int", nullable: false),
                     AssignedToDeliveryEmployeeId = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    SenderId = table.Column<int>(type: "int", nullable: false),
+                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReceiverPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeliveryToOffice = table.Column<bool>(type: "bit", nullable: false),
+                    DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Method = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -206,10 +259,11 @@ namespace E_Speed.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Shipments_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Shipments_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -218,7 +272,7 @@ namespace E_Speed.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OfficeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OfficeId = table.Column<int>(type: "int", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -288,6 +342,11 @@ namespace E_Speed.Migrations
                 column: "OfficeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ShipmentRequests_SenderId",
+                table: "ShipmentRequests",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Shipments_AssignedToDeliveryEmployeeId",
                 table: "Shipments",
                 column: "AssignedToDeliveryEmployeeId");
@@ -298,9 +357,9 @@ namespace E_Speed.Migrations
                 column: "ProcessedByOfficeEmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shipments_UserId",
+                name: "IX_Shipments_SenderId",
                 table: "Shipments",
-                column: "UserId");
+                column: "SenderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -324,7 +383,13 @@ namespace E_Speed.Migrations
                 name: "EmployeeOffices");
 
             migrationBuilder.DropTable(
+                name: "ShipmentRequests");
+
+            migrationBuilder.DropTable(
                 name: "Shipments");
+
+            migrationBuilder.DropTable(
+                name: "UserServiceModel");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -334,6 +399,9 @@ namespace E_Speed.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropSequence(
+                name: "ShipmentTrackingNumber");
         }
     }
 }

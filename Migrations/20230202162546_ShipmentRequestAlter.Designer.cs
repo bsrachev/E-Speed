@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Speed.Migrations
 {
     [DbContext(typeof(E_SpeedDbContext))]
-    [Migration("20230129193014_ShipmentChanges")]
-    partial class ShipmentChanges
+    [Migration("20230202162546_ShipmentRequestAlter")]
+    partial class ShipmentRequestAlter
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,9 @@ namespace E_Speed.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.HasSequence<int>("ShipmentTrackingNumber")
+                .StartsAt(10000001L);
 
             modelBuilder.Entity("E_Speed.Data.Models.EmployeeOffice", b =>
                 {
@@ -35,9 +38,8 @@ namespace E_Speed.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("OfficeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OfficeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -50,8 +52,11 @@ namespace E_Speed.Migrations
 
             modelBuilder.Entity("E_Speed.Data.Models.Office", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -80,6 +85,9 @@ namespace E_Speed.Migrations
                     b.Property<DateTime>("DateAccepted")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateDelivered")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("DeliveryAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -90,6 +98,9 @@ namespace E_Speed.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -114,6 +125,11 @@ namespace E_Speed.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int>("TrackingNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR ShipmentTrackingNumber");
+
                     b.Property<decimal>("Weight")
                         .HasColumnType("decimal(18,2)");
 
@@ -126,6 +142,53 @@ namespace E_Speed.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Shipments");
+                });
+
+            modelBuilder.Entity("E_Speed.Data.Models.ShipmentRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("DeliveryAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("DeliveryToOffice")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployeeComment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiverName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceiverPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("ShipmentRequests");
                 });
 
             modelBuilder.Entity("E_Speed.Data.Models.User", b =>
@@ -417,6 +480,17 @@ namespace E_Speed.Migrations
                     b.Navigation("AssignedToDeliveryEmployee");
 
                     b.Navigation("ProcessedByOfficeEmployee");
+
+                    b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("E_Speed.Data.Models.ShipmentRequest", b =>
+                {
+                    b.HasOne("E_Speed.Data.Models.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Sender");
                 });
