@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using E_Speed.Models.Shipments;
 using E_Speed.Services.Shipments;
 using E_Speed.Infrastructure;
+using E_Speed.Data.Models.Enums;
 
 namespace E_Speed.Controllers
 {
@@ -37,6 +38,32 @@ namespace E_Speed.Controllers
         [Authorize]
         public IActionResult CreateRequest()
         {
+            return this.View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateRequest(CreateShipmentRequestFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var shipmentRequest = new ShipmentRequest
+            {
+                SenderId = this.User.Id(),
+                ReceiverName = model.ReceiverName,
+                ReceiverPhone = model.ReceiverPhone,
+                DeliveryToOffice = model.DeliveryToOffice,
+                DeliveryAddress = model.DeliveryAddress,
+                Description = model.Description,
+                Method = (ShippingMethod)Enum.Parse(typeof(ShippingMethod), model.Method, true),
+                Status = 0
+            };
+
+            this.shipmentService.CreateShipmentRequest(shipmentRequest);
+
             return this.View();
         }
 
@@ -78,7 +105,7 @@ namespace E_Speed.Controllers
                 return this.View(shipmentModel);
             }
 
-            int shipmentId = this.shipmentService.Create(this.User.Id(),
+            int shipmentId = this.shipmentService.CreateShipment(this.User.Id(),
                                                          shipmentModel.Receiver,
                                                          shipmentModel.Receiver,
                                                          shipmentModel.DateAccepted,
@@ -86,8 +113,8 @@ namespace E_Speed.Controllers
                                                          shipmentModel.DeliveryAddress,
                                                          shipmentModel.Description,
                                                          shipmentModel.Price,
-                                                         shipmentModel.Weight); 
-            
+                                                         shipmentModel.Weight);
+
             //var a = this.User.Id();
 
             return this.Redirect($"/Shipments/Details/?shipmentId={shipmentId}");
@@ -195,14 +222,14 @@ namespace E_Speed.Controllers
             {
                 _context.Shipments.Remove(shipment);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ShipmentExists(int id)
         {
-          return _context.Shipments.Any(e => e.Id == id);
+            return _context.Shipments.Any(e => e.Id == id);
         }
     }
 }

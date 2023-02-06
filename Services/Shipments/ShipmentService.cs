@@ -16,7 +16,7 @@ namespace E_Speed.Services.Shipments
             this.data = data;
         }
 
-        public int Create(int senderId,
+        public int CreateShipment(int senderId,
                           string receiverName,
                           string receiverPhone,
                           DateTime dateAccepted,
@@ -47,6 +47,15 @@ namespace E_Speed.Services.Shipments
             this.data.SaveChanges();
 
             return shipment.Id;
+        }
+
+        public int CreateShipmentRequest(ShipmentRequest shipmentRequest)
+        {
+            this.data.ShipmentRequests.Add(shipmentRequest);
+
+            this.data.SaveChanges();
+
+            return shipmentRequest.Id;
         }
 
         public IEnumerable<ShipmentServiceModel> GetAllShipments()

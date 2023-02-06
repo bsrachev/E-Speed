@@ -12,7 +12,7 @@ namespace E_Speed.Migrations
                 name: "EmployeeComment",
                 table: "ShipmentRequests",
                 type: "nvarchar(max)",
-                nullable: false,
+                nullable: true,
                 defaultValue: "");
         }
 

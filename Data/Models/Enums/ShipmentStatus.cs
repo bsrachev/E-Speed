@@ -4,7 +4,7 @@
 
     public enum ShipmentStatus
     {
-        [Display(Name = "New")]
+        [Display(Name = "New Request")]
         New = 0,
 
         [Display(Name = "Accepted")]
