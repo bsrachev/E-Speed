@@ -4,21 +4,23 @@ namespace E_Speed.Models.Shipments
 {
     public class CreateShipmentFormModel
     {
-        [Required]
-        [DataType(DataType.Date)]
-        [Display(Name = "Date Accepted")]
-        public DateTime DateAccepted { get; init; }
+        [Display(Name = "Receiver")]
+        public int ReceiverId { get; set; }
 
         [Required]
-        public string Sender { get; set; }
+        [Display(Name = "Receiver Name")]
+        public string ReceiverName { get; set; }
 
         [Required]
-        public string Receiver { get; set; }
+        [Display(Name = "Receiver Phone")]
+        public string ReceiverPhone { get; set; }
 
         [Required]
+        [Display(Name = "Delivery To Office")]
         public bool DeliveryToOffice { get; set; }
 
         [Required]
+        [Display(Name = "Delivery Address")]
         public string DeliveryAddress { get; set; }
 
         [Required]
@@ -29,5 +31,9 @@ namespace E_Speed.Models.Shipments
 
         [Required]
         public decimal Price { get; set; }
+
+        [Required]
+        [Display(Name = "Assign To Delivery Employee")]
+        public int AssignedToDeliveryEmployeeId { get; set; }
     }
 }

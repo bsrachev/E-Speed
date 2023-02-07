@@ -1,57 +1,136 @@
-﻿@model E_Speed.Models.Shipments.CreateShipmentFormModel
+﻿@model E_Speed.Models.Shipments.NewShipmentFormModel
 
 @{
-    ViewData["Title"] = "Create a new shipment";
+    ViewData["Title"] = "ProcessRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
 
-<!DOCTYPE html>
+<h1>ProcessRequest</h1>
 
+<div>
+    <h4>ShipmentRequestServiceModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Request.SenderId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClientsList.Where(c => c.Id == Model.Request.SenderId).FirstOrDefault().FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Request.ReceiverName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.ReceiverName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Request.ReceiverPhone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.ReceiverPhone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Request.DeliveryToOffice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.DeliveryToOffice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Request.DeliveryAddress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.DeliveryAddress)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Request.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Request.Method)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.Method)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Request.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Request.EmployeeComment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.EmployeeComment)
+        </dd>
+    </dl>
+</div>
 
-<h4>Shipment</h4>
+<h4>Create Shipment</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="ProcessRequest">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="DateAccepted" class="control-label"></label>
-                <input asp-for="DateAccepted" class="form-control" />
-                <span asp-validation-for="DateAccepted" class="text-danger"></span>
+                <label class="control-label">Sender</label>
+                <input class="form-control" readonly value="@Model.ClientsList.Where(c => c.Id == Model.Request.SenderId).FirstOrDefault().FullName" />
             </div>
             <div class="form-group">
-                <label asp-for="Sender" class="control-label"></label>
-                <input asp-for="Sender" class="form-control" />
-                <span asp-validation-for="Sender" class="text-danger"></span>
+                <label asp-for="NewShipment.ReceiverId" class="control-label"></label>
+                <select asp-for="NewShipment.ReceiverId" class="form-control">
+                    <option id="italicOption" selected value="null">Leave if receiver is not registered</option>
+                    @foreach (var c in Model.ClientsList)
+                    {
+                        <option value="@c.Id">@c.FullName</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="Receiver" class="control-label"></label>
-                <input asp-for="Receiver" class="form-control" />
-                <span asp-validation-for="Receiver" class="text-danger"></span>
+                <label asp-for="NewShipment.ReceiverName" class="control-label"></label>
+                <input asp-for="NewShipment.ReceiverName" class="form-control" />
+                <span asp-validation-for="NewShipment.ReceiverName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewShipment.ReceiverPhone" class="control-label"></label>
+                <input asp-for="NewShipment.ReceiverPhone" class="form-control" />
+                <span asp-validation-for="NewShipment.ReceiverPhone" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DeliveryToOffice" /> @Html.DisplayNameFor(model => model.DeliveryToOffice)
+                    <input class="form-check-input" asp-for="NewShipment.DeliveryToOffice" /> @Html.DisplayNameFor(model => model.NewShipment.DeliveryToOffice)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="DeliveryAddress" class="control-label"></label>
-                <input asp-for="DeliveryAddress" class="form-control" />
-                <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
+                <label asp-for="NewShipment.DeliveryAddress" class="control-label"></label>
+                <input asp-for="NewShipment.DeliveryAddress" class="form-control" />
+                <span asp-validation-for="NewShipment.DeliveryAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Weight" class="control-label"></label>
-                <input asp-for="Weight" class="form-control" />
-                <span asp-validation-for="Weight" class="text-danger"></span>
+                <label asp-for="NewShipment.Weight" class="control-label"></label>
+                <input asp-for="NewShipment.Weight" class="form-control" />
+                <span asp-validation-for="NewShipment.Weight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="NewShipment.Description" class="control-label"></label>
+                <input asp-for="NewShipment.Description" class="form-control" />
+                <span asp-validation-for="NewShipment.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label" readonly></label>
-                <input asp-for="Price" class="form-control" />
+                <label asp-for="NewShipment.AssignedToDeliveryEmployeeId" class="control-label"></label>
+                <select asp-for="NewShipment.AssignedToDeliveryEmployeeId" class="form-control">
+                    @foreach (var d in Model.DeliveryEmployeesList)
+                    {
+                        <option value="@d.Id">@d.FullName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewShipment.Price" class="control-label"></label>
+                <input asp-for="NewShipment.Price" class="form-control" />
+                <span asp-validation-for="NewShipment.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -63,3 +142,4 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+

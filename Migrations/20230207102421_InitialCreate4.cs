@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace E_Speed.Migrations
 {
-    public partial class InitialCreate3 : Migration
+    public partial class InitialCreate4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,24 +68,6 @@ namespace E_Speed.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Offices", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserServiceModel",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsEmployee = table.Column<bool>(type: "bit", nullable: false),
-                    IsOfficeEmployee = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeliveryEmployee = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserServiceModel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,6 +182,7 @@ namespace E_Speed.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SystemComment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SenderId = table.Column<int>(type: "int", nullable: false),
                     ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReceiverPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -387,9 +370,6 @@ namespace E_Speed.Migrations
 
             migrationBuilder.DropTable(
                 name: "Shipments");
-
-            migrationBuilder.DropTable(
-                name: "UserServiceModel");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

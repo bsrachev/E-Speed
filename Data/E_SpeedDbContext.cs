@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using E_Speed.Services.Users;
 using E_Speed.Models.Shipments;
+using E_Speed.Services.Shipments;
 
 namespace E_Speed.Data
 {
@@ -66,5 +67,23 @@ namespace E_Speed.Data
 
             base.OnModelCreating(builder);
         }
+
+        //public DbSet<Client> Clients { get; init; }
+
+        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
+
+        //public DbSet<E_Speed.Services.Shipments.ShipmentRequestServiceModel> ShipmentRequestServiceModel { get; set; }
+
+        //public DbSet<Client> Clients { get; init; }
+
+        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
+
+        //public DbSet<E_Speed.Services.Shipments.ShipmentServiceModel> ShipmentServiceModel { get; set; }
+
+        //public DbSet<Client> Clients { get; init; }
+
+        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
+
+        //public DbSet<E_Speed.Models.Shipments.ShipmentDetailListingViewModel> ShipmentDetailListingViewModel { get; set; }
     }
 }

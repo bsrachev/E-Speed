@@ -17,6 +17,7 @@ namespace E_Speed.Services.Shipments
         }
 
         public int CreateShipment(int senderId,
+                          int receiverId,
                           string receiverName,
                           string receiverPhone,
                           DateTime dateAccepted,
@@ -51,6 +52,8 @@ namespace E_Speed.Services.Shipments
 
         public int CreateShipmentRequest(ShipmentRequest shipmentRequest)
         {
+            shipmentRequest.SystemComment = "Awaiting processing";
+
             this.data.ShipmentRequests.Add(shipmentRequest);
 
             this.data.SaveChanges();
@@ -84,6 +87,26 @@ namespace E_Speed.Services.Shipments
                 .ToList();
         }
 
+        public IEnumerable<ShipmentRequestServiceModel> GetAllShipmentRequests()
+        {
+            var shipmentRequestsQuery = this.data.ShipmentRequests.AsQueryable();
+
+            return shipmentRequestsQuery
+                .Select(c => new ShipmentRequestServiceModel
+                {
+                    Id = c.Id,
+                    SenderId = c.SenderId,
+                    ReceiverName = c.ReceiverName,
+                    ReceiverPhone = c.ReceiverPhone,
+                    Method = c.Method,
+                    DeliveryAddress = c.DeliveryAddress,
+                    Description = c.Description,
+                    DeliveryToOffice = c.DeliveryToOffice,
+                    Status = c.Status
+                })
+                .ToList();
+        }
+
         public ShipmentDetailListingViewModel GetShipmentById(int shipmentId)
         {
             var shipment = this.data.Shipments.Where(x => x.Id == shipmentId).FirstOrDefault();
@@ -99,6 +122,27 @@ namespace E_Speed.Services.Shipments
                 Description = shipment.Description,
                 Price = shipment.Price,
                 Weight = shipment.Weight
+            };
+
+            return query;
+        }
+
+        public ShipmentRequestServiceModel GetShipmentRequestById(int requestId)
+        {
+            var shipment = this.data.ShipmentRequests.Where(x => x.Id == requestId).FirstOrDefault();
+
+            var query = new ShipmentRequestServiceModel
+            {
+                Id = shipment.Id,
+                EmployeeComment = shipment.SystemComment,
+                Method = shipment.Method,
+                ReceiverName = shipment.ReceiverName,
+                ReceiverPhone = shipment.ReceiverPhone,
+                SenderId = shipment.SenderId,
+                Status = shipment.Status,
+                DeliveryAddress = shipment.DeliveryAddress,
+                DeliveryToOffice = shipment.DeliveryToOffice,
+                Description = shipment.Description
             };
 
             return query;

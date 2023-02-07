@@ -12,6 +12,9 @@ using E_Speed.Models.Shipments;
 using E_Speed.Services.Shipments;
 using E_Speed.Infrastructure;
 using E_Speed.Data.Models.Enums;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using E_Speed.Services.Offices;
+using E_Speed.Services.Users;
 
 namespace E_Speed.Controllers
 {
@@ -19,18 +22,35 @@ namespace E_Speed.Controllers
     {
         private readonly E_SpeedDbContext _context;
         private readonly IShipmentService shipmentService;
+        private readonly IOfficeService officeService;
+        private readonly IUserService userService;
 
-        public ShipmentsController(E_SpeedDbContext context, IShipmentService shipmentService)
+        public ShipmentsController(E_SpeedDbContext context, 
+                                   IShipmentService shipmentService, 
+                                   IOfficeService officeService, 
+                                   IUserService userService)
         {
             _context = context;
             this.shipmentService = shipmentService;
+            this.officeService = officeService;
+            this.userService = userService;
         }
 
         // GET: Shipments
-        //[Authorize]
+        [Authorize]
         public IActionResult Index([FromQuery] AllShipmentQueryModel query)
         {
             query.Shipments = this.shipmentService.GetAllShipments();
+
+            if (this.User.IsOfficeEmployee())
+            {
+                query.ShipmentRequests = this.shipmentService.GetAllShipmentRequests();
+            }
+            else
+            {
+                query.ShipmentRequests = this.shipmentService.GetAllShipmentRequests()
+                    .Where(r => r.SenderId == this.User.Id());
+            }
 
             return this.View(query);
         }
@@ -64,7 +84,7 @@ namespace E_Speed.Controllers
 
             this.shipmentService.CreateShipmentRequest(shipmentRequest);
 
-            return this.View();
+            return this.View("Index");
         }
 
         // GET: Shipments/Details/5
@@ -87,37 +107,48 @@ namespace E_Speed.Controllers
             return View(shipment);
         }*/
 
-        // GET: Shipments/Create
-        public IActionResult Create()
+        // GET: Shipments/ProcessRequest
+        public IActionResult ProcessRequest(int requestId)
         {
-            //ViewData["AssignedToDeliveryEmployeeId"] = new SelectList(_context.DeliveryEmployees, "Id", "Name");
-            //ViewData["ProcessedByOfficeEmployeeId"] = new SelectList(_context.OfficeEmployees, "Id", "Name");
-            return this.View();
+            var query = new NewShipmentFormModel
+            {
+                Request = this.shipmentService.GetShipmentRequestById(requestId),
+                NewShipment = new CreateShipmentFormModel(),
+                ClientsList = this.userService.GetAllUsers().Where(c => c.Id != 1),
+                DeliveryEmployeesList = this.userService.GetAllUsers().Where(u => u.IsDeliveryEmployee == true)
+            };
+
+            return this.View(query);
         }
 
-        // POST: Shipments/Create
+        // POST: Shipments/ProcessRequest
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateShipmentFormModel shipmentModel)
+        public IActionResult ProcessRequest(NewShipmentFormModel shipmentModel)
         {
+            var request = shipmentModel.Request;
+
+            var newShipment = shipmentModel.NewShipment;
+
             if (!ModelState.IsValid)
             {
                 return this.View(shipmentModel);
             }
 
-            int shipmentId = this.shipmentService.CreateShipment(this.User.Id(),
-                                                         shipmentModel.Receiver,
-                                                         shipmentModel.Receiver,
-                                                         shipmentModel.DateAccepted,
-                                                         shipmentModel.DeliveryToOffice,
-                                                         shipmentModel.DeliveryAddress,
-                                                         shipmentModel.Description,
-                                                         shipmentModel.Price,
-                                                         shipmentModel.Weight);
+            int shipmentId = this.shipmentService.CreateShipment(request.SenderId,
+                                                         newShipment.ReceiverId,
+                                                         newShipment.ReceiverName,
+                                                         newShipment.ReceiverPhone,
+                                                         DateTime.Now,
+                                                         newShipment.DeliveryToOffice,
+                                                         newShipment.DeliveryAddress,
+                                                         newShipment.Description,
+                                                         newShipment.Price,
+                                                         newShipment.Weight);
 
             //var a = this.User.Id();
 
-            return this.Redirect($"/Shipments/Details/?shipmentId={shipmentId}");
+            return this.View("Index");
         }
 
         //[Authorize]
@@ -215,7 +246,7 @@ namespace E_Speed.Controllers
         {
             if (_context.Shipments == null)
             {
-                return Problem("Entity set 'E_SpeedDbContext.Shipments'  is null.");
+                return Problem("Entity set 'E_SpeedDbContext.Shipments' is null.");
             }
             var shipment = await _context.Shipments.FindAsync(id);
             if (shipment != null)

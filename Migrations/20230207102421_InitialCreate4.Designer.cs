@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Speed.Migrations
 {
     [DbContext(typeof(E_SpeedDbContext))]
-    [Migration("20230202162546_ShipmentRequestAlter")]
-    partial class ShipmentRequestAlter
+    [Migration("20230207102421_InitialCreate4")]
+    partial class InitialCreate4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,9 +163,6 @@ namespace E_Speed.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmployeeComment")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Method")
                         .HasColumnType("int");
 
@@ -182,6 +179,10 @@ namespace E_Speed.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<string>("SystemComment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -264,40 +265,6 @@ namespace E_Speed.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("E_Speed.Services.Users.UserServiceModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeliveryEmployee")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsEmployee")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOfficeEmployee")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserServiceModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>

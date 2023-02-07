@@ -32,6 +32,47 @@
 
             <br />
 
+            @if (Model.ShipmentRequests.Count() != 0)
+            {
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" style="text-align:center;">View</th>
+                            <th scope="col" style="text-align:center;">Sender Id</th>
+                            <th scope="col" style="text-align:center;">Receiver Name</th>
+                            <th scope="col" style="text-align:center;">Receiver Phone</th>
+                            <th scope="col" style="text-align:center;">Delivery To Office</th>
+                            <th scope="col" style="text-align:center;">Delivery Address</th>
+                            <th scope="col" style="text-align:center;">Method</th>
+                            <th scope="col" style="text-align:center;">Description</th>
+                            <th class="col-md-2" scope="col" style="text-align:center;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var s in Model.ShipmentRequests)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="button-holder">
+                                        <a href="/Shipments/ProcessRequest?requestId=@s.Id" class="btn btn-info text-uppercase">View</a>
+                                    </div>
+                                </td>
+                                <td scope="row" style="text-align:center;">@s.SenderId</td>
+                                <td style="text-align:center;">@s.ReceiverName</td>
+                                <td style="text-align:center;">@s.ReceiverPhone</td>
+                                <td style="text-align:center;">@s.DeliveryToOffice</td>
+                                <td style="text-align:center;">@s.DeliveryAddress</td>
+                                <td style="text-align:center;">@s.Method</td>
+                                <td style="text-align:center;">@s.Description</td>
+                                <td style="text-align:center;">@s.Status</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+            <br />
+
             @if (Model.Shipments.Count() == 0)
             {
                 <h5>There are no shipments. Would you like to <a href="/Shipments/Create">add</a> the first one?</h5>
