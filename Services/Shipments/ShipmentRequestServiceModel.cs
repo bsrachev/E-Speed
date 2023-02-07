@@ -14,6 +14,8 @@ namespace E_Speed.Services.Shipments
 
         public bool DeliveryToOffice { get; set; }
 
+        public int? OfficeId { get; set; }
+
         public string DeliveryAddress { get; set; }
 
         public string Description { get; set; }

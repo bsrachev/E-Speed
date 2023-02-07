@@ -1,5 +1,7 @@
 ﻿using E_Speed.Data.Models;
 using E_Speed.Data.Models.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace E_Speed.Services.Shipments
 {
@@ -14,6 +16,8 @@ namespace E_Speed.Services.Shipments
         public string Receiver { get; set; }
 
         public bool DeliveryToOffice { get; set; }
+
+        public int? OfficeId { get; set; }
 
         public string DeliveryAddress { get; set; }
 

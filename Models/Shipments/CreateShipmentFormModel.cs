@@ -15,11 +15,9 @@ namespace E_Speed.Models.Shipments
         [Display(Name = "Receiver Phone")]
         public string ReceiverPhone { get; set; }
 
-        [Required]
-        [Display(Name = "Delivery To Office")]
-        public bool DeliveryToOffice { get; set; }
+        [Display(Name = "Delivery Office")]
+        public int OfficeId { get; set; }
 
-        [Required]
         [Display(Name = "Delivery Address")]
         public string DeliveryAddress { get; set; }
 

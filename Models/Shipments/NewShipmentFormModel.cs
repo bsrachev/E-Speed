@@ -1,4 +1,5 @@
-﻿using E_Speed.Services.Shipments;
+﻿using E_Speed.Services.Offices;
+using E_Speed.Services.Shipments;
 using E_Speed.Services.Users;
 
 namespace E_Speed.Models.Shipments
@@ -12,5 +13,7 @@ namespace E_Speed.Models.Shipments
         public IEnumerable<UserServiceModel> DeliveryEmployeesList { get; set; }
 
         public IEnumerable<UserServiceModel> ClientsList { get; set; }
+
+        public IEnumerable<OfficeServiceModel> OfficesList { get; set; }
     }
 }

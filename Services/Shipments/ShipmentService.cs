@@ -22,10 +22,13 @@ namespace E_Speed.Services.Shipments
                           string receiverPhone,
                           DateTime dateAccepted,
                           bool deliveryToOffice,
+                          int? officeId,
                           string deliveryAddress,
                           string description,
                           decimal price,
-                          decimal weight)
+                          decimal weight,
+                          int assignedToDeliveryEmployeeId,
+                          int processedByOfficeEmployeeId)
         {
             var shipment = new Shipment
             {
@@ -34,13 +37,14 @@ namespace E_Speed.Services.Shipments
                 ReceiverPhone = receiverPhone,
                 DateAccepted = dateAccepted,
                 DeliveryToOffice = deliveryToOffice,
+                OfficeId = officeId,
                 DeliveryAddress = deliveryAddress,
                 Description = description,
                 Price = price,
                 Weight = weight,
                 Status = ShipmentStatus.New,
-                AssignedToDeliveryEmployeeId = 0,
-                ProcessedByOfficeEmployeeId = 0
+                AssignedToDeliveryEmployeeId = assignedToDeliveryEmployeeId,
+                ProcessedByOfficeEmployeeId = processedByOfficeEmployeeId
             };
 
             this.data.Shipments.Add(shipment);

@@ -25,9 +25,9 @@ namespace E_Speed.Controllers
         private readonly IOfficeService officeService;
         private readonly IUserService userService;
 
-        public ShipmentsController(E_SpeedDbContext context, 
-                                   IShipmentService shipmentService, 
-                                   IOfficeService officeService, 
+        public ShipmentsController(E_SpeedDbContext context,
+                                   IShipmentService shipmentService,
+                                   IOfficeService officeService,
                                    IUserService userService)
         {
             _context = context;
@@ -55,57 +55,6 @@ namespace E_Speed.Controllers
             return this.View(query);
         }
 
-        [Authorize]
-        public IActionResult CreateRequest()
-        {
-            return this.View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult CreateRequest(CreateShipmentRequestFormModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return this.View(model);
-            }
-
-            var shipmentRequest = new ShipmentRequest
-            {
-                SenderId = this.User.Id(),
-                ReceiverName = model.ReceiverName,
-                ReceiverPhone = model.ReceiverPhone,
-                DeliveryToOffice = model.DeliveryToOffice,
-                DeliveryAddress = model.DeliveryAddress,
-                Description = model.Description,
-                Method = (ShippingMethod)Enum.Parse(typeof(ShippingMethod), model.Method, true),
-                Status = 0
-            };
-
-            this.shipmentService.CreateShipmentRequest(shipmentRequest);
-
-            return this.View("Index");
-        }
-
-        // GET: Shipments/Details/5
-        /*public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Shipments == null)
-            {
-                return NotFound();
-            }
-
-            var shipment = await _context.Shipments
-                .Include(s => s.AssignedToDeliveryEmployee)
-                .Include(s => s.ProcessedByOfficeEmployee)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (shipment == null)
-            {
-                return NotFound();
-            }
-
-            return View(shipment);
-        }*/
 
         // GET: Shipments/ProcessRequest
         public IActionResult ProcessRequest(int requestId)
@@ -115,7 +64,8 @@ namespace E_Speed.Controllers
                 Request = this.shipmentService.GetShipmentRequestById(requestId),
                 NewShipment = new CreateShipmentFormModel(),
                 ClientsList = this.userService.GetAllUsers().Where(c => c.Id != 1),
-                DeliveryEmployeesList = this.userService.GetAllUsers().Where(u => u.IsDeliveryEmployee == true)
+                DeliveryEmployeesList = this.userService.GetAllUsers().Where(u => u.IsDeliveryEmployee == true),
+                OfficesList = this.officeService.GetAllOffices()
             };
 
             return this.View(query);
@@ -124,15 +74,31 @@ namespace E_Speed.Controllers
         // POST: Shipments/ProcessRequest
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ProcessRequest(NewShipmentFormModel shipmentModel)
+        public IActionResult ProcessRequest(NewShipmentFormModel shipmentModel, int requestId)
         {
-            var request = shipmentModel.Request;
-
-            var newShipment = shipmentModel.NewShipment;
+            /*shipmentModel.Request = this.shipmentService.GetShipmentRequestById(requestId);
+            shipmentModel.ClientsList = this.userService.GetAllUsers().Where(c => c.Id != 1);
+            shipmentModel.DeliveryEmployeesList = this.userService.GetAllUsers().Where(u => u.IsDeliveryEmployee == true);
+            shipmentModel.OfficesList = this.officeService.GetAllOffices();
 
             if (!ModelState.IsValid)
             {
                 return this.View(shipmentModel);
+            }*/
+
+            var request = this.shipmentService.GetShipmentRequestById(requestId);
+
+            var newShipment = shipmentModel.NewShipment;
+
+            var deliveryAddress = "";
+
+            if (request.DeliveryToOffice == false)
+            {
+                deliveryAddress = newShipment.DeliveryAddress;
+            }
+            else
+            {
+                deliveryAddress = this.officeService.GetOfficeById(newShipment.OfficeId).Address;
             }
 
             int shipmentId = this.shipmentService.CreateShipment(request.SenderId,
@@ -140,15 +106,16 @@ namespace E_Speed.Controllers
                                                          newShipment.ReceiverName,
                                                          newShipment.ReceiverPhone,
                                                          DateTime.Now,
-                                                         newShipment.DeliveryToOffice,
-                                                         newShipment.DeliveryAddress,
+                                                         request.DeliveryToOffice,
+                                                         newShipment.OfficeId,
+                                                         deliveryAddress,
                                                          newShipment.Description,
                                                          newShipment.Price,
-                                                         newShipment.Weight);
+                                                         newShipment.Weight,
+                                                         newShipment.AssignedToDeliveryEmployeeId,
+                                                         this.User.Id());
 
-            //var a = this.User.Id();
-
-            return this.View("Index");
+            return this.RedirectToAction("Index");
         }
 
         //[Authorize]

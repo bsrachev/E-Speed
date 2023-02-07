@@ -5,8 +5,20 @@ namespace E_Speed.Services.Shipments
 {
     public interface IShipmentService
     {
-        int CreateShipment(int senderId, int receiverId, string receiverName, string receiverPhone, DateTime dateAccepted, bool deliveryToOffice, string deliveryAddress, string description, decimal price, decimal weight);
-        
+        int CreateShipment(int senderId,
+                          int receiverId,
+                          string receiverName,
+                          string receiverPhone,
+                          DateTime dateAccepted,
+                          bool deliveryToOffice,
+                          int? officeId,
+                          string deliveryAddress,
+                          string description,
+                          decimal price,
+                          decimal weight,
+                          int assignedToDeliveryEmployeeId,
+                          int processedByOfficeEmployeeId);
+
         int CreateShipmentRequest(ShipmentRequest shipmentRequest);
 
         IEnumerable<ShipmentServiceModel> GetAllShipments(); //TODO (OrderSearchFormModel searchModel = null)
