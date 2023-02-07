@@ -22,6 +22,8 @@ namespace E_Speed.Data.Models
         [Required]
         public bool DeliveryToOffice { get; set; }
 
+        public int? OfficeId { get; init; }
+
         [Required]
         public string DeliveryAddress { get; set; }
 
