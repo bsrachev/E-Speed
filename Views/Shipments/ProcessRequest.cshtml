@@ -8,7 +8,6 @@
 <h1>ProcessRequest</h1>
 
 <div>
-    <h4>ShipmentRequestServiceModel</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -59,90 +58,89 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Request.Status)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Request.EmployeeComment)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Request.EmployeeComment)
-        </dd>
     </dl>
 </div>
 
 <h4>Create Shipment</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="ProcessRequest">
-            <input type="hidden" name="requestId" value="@Model.Request.Id" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label">Sender</label>
-                <input class="form-control" readonly value="@Model.ClientsList.Where(c => c.Id == Model.Request.SenderId).FirstOrDefault().FullName" />
-            </div>
-            <div class="form-group">
-                <label asp-for="NewShipment.ReceiverId" class="control-label"></label>
-                <select asp-for="NewShipment.ReceiverId" class="form-control">
-                    <option id="italicOption" selected value="null">Leave if receiver is not registered</option>
-                    @foreach (var c in Model.ClientsList)
+            <div class="form-row">
+                <div class="col-md-4">
+                    <input type="hidden" name="requestId" value="@Model.Request.Id" />
+                    <input type="hidden" asp-for="Request" name="Request" value="@Model.Request" />
+                    <input type="hidden" name="ClientsList" value="@Model.ClientsList" />
+                    <input type="hidden" name="DeliveryEmployeesList" value="@Model.DeliveryEmployeesList" />
+                    <input type="hidden" name="OfficesList" value="@Model.OfficesList" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <label class="control-label-alt">Sender</label>
+                    <input class="form-control" readonly value="@Model.ClientsList.Where(c => c.Id == Model.Request.SenderId).FirstOrDefault().FullName" />
+
+                    @if (Model.Request.DeliveryToOffice)
                     {
-                        <option value="@c.Id">@c.FullName</option>
+                        <label asp-for="NewShipment.DeliveryAddress" class="control-label-alt"></label>
+                        <select asp-for="NewShipment.DeliveryAddress" class="form-control">
+                            @foreach (var d in Model.OfficesList)
+                            {
+                                <option value="@d.Id">@d.Name: @d.Address</option>
+                            }
+                        </select>
                     }
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewShipment.ReceiverName" class="control-label"></label>
-                <input asp-for="NewShipment.ReceiverName" class="form-control" />
-                <span asp-validation-for="NewShipment.ReceiverName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewShipment.ReceiverPhone" class="control-label"></label>
-                <input asp-for="NewShipment.ReceiverPhone" class="form-control" />
-                <span asp-validation-for="NewShipment.ReceiverPhone" class="text-danger"></span>
-            </div>
-            @if (Model.Request.DeliveryToOffice)
-            {
-                <label asp-for="NewShipment.DeliveryAddress" class="control-label"></label>
-                <select asp-for="NewShipment.DeliveryAddress" class="form-control">
-                    @foreach (var d in Model.OfficesList)
+                    else
                     {
-                        <option value="@d.Id">@d.Name: @d.Address</option>
+                        <label asp-for="NewShipment.DeliveryAddress" class="control-label-alt"></label>
+                        <input asp-for="NewShipment.DeliveryAddress" class="form-control" />
+                        <span asp-validation-for="NewShipment.DeliveryAddress" class="text-danger"></span>
                     }
-                </select>
-            }
-            else
-            {
-                <div class="form-group">
-                    <label asp-for="NewShipment.DeliveryAddress" class="control-label"></label>
-                    <input asp-for="NewShipment.DeliveryAddress" class="form-control" />
-                    <span asp-validation-for="NewShipment.DeliveryAddress" class="text-danger"></span>
+
+                    <label asp-for="NewShipment.Description" class="control-label-alt"></label>
+                    <input asp-for="NewShipment.Description" class="form-control" />
+                    <span asp-validation-for="NewShipment.Description" class="text-danger"></span>                    
                 </div>
-            }
-            <div class="form-group">
-                <label asp-for="NewShipment.Weight" class="control-label"></label>
-                <input asp-for="NewShipment.Weight" class="form-control" />
-                <span asp-validation-for="NewShipment.Weight" class="text-danger"></span>
+                <div class="col-md-4">
+                    <label asp-for="NewShipment.ReceiverId" class="control-label-alt"></label>
+                    <select asp-for="NewShipment.ReceiverId" class="form-control">
+                        <option id="italicOption" selected value="0">Leave if receiver is not registered</option>
+                        @foreach (var c in Model.ClientsList)
+                        {
+                            <option value="@c.Id">@c.FullName</option>
+                        }
+                    </select>
+
+                    <label asp-for="NewShipment.ReceiverName" class="control-label-alt"></label>
+                    <input asp-for="NewShipment.ReceiverName" class="form-control" />
+                    <span asp-validation-for="NewShipment.ReceiverName" class="text-danger"></span>
+
+                    <label asp-for="NewShipment.ReceiverPhone" class="control-label-alt"></label>
+                    <input asp-for="NewShipment.ReceiverPhone" class="form-control" />
+                    <span asp-validation-for="NewShipment.ReceiverPhone" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="NewShipment.Weight" class="control-label-alt"></label>
+                    <input asp-for="NewShipment.Weight" class="form-control" />
+                    <span asp-validation-for="NewShipment.Weight" class="text-danger"></span>
+
+                    <label asp-for="NewShipment.AssignedToDeliveryEmployeeId" class="control-label-alt"></label>
+                    <select asp-for="NewShipment.AssignedToDeliveryEmployeeId" class="form-control">
+                        @foreach (var d in Model.DeliveryEmployeesList)
+                        {
+                            <option value="@d.Id">@d.FullName</option>
+                        }
+                    </select>
+                    
+                    <label asp-for="NewShipment.Price" class="control-label-alt"></label>
+                    <input asp-for="NewShipment.Price" class="form-control" />
+                    <span asp-validation-for="NewShipment.Price" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="NewShipment.Description" class="control-label"></label>
-                <input asp-for="NewShipment.Description" class="form-control" />
-                <span asp-validation-for="NewShipment.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewShipment.AssignedToDeliveryEmployeeId" class="control-label"></label>
-                <select asp-for="NewShipment.AssignedToDeliveryEmployeeId" class="form-control">
-                    @foreach (var d in Model.DeliveryEmployeesList)
-                    {
-                        <option value="@d.Id">@d.FullName</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewShipment.Price" class="control-label"></label>
-                <input asp-for="NewShipment.Price" class="form-control" />
-                <span asp-validation-for="NewShipment.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <br/>
+
+            <div class="form-group" style="width: 100%; display: grid;">
+                <button type="submit" class="btn btn-success">Create Shipment</button>
             </div>
         </form>
     </div>

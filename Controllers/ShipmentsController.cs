@@ -15,6 +15,8 @@ using E_Speed.Data.Models.Enums;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using E_Speed.Services.Offices;
 using E_Speed.Services.Users;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json.Linq;
 
 namespace E_Speed.Controllers
 {
@@ -76,15 +78,18 @@ namespace E_Speed.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ProcessRequest(NewShipmentFormModel shipmentModel, int requestId)
         {
-            /*shipmentModel.Request = this.shipmentService.GetShipmentRequestById(requestId);
-            shipmentModel.ClientsList = this.userService.GetAllUsers().Where(c => c.Id != 1);
-            shipmentModel.DeliveryEmployeesList = this.userService.GetAllUsers().Where(u => u.IsDeliveryEmployee == true);
-            shipmentModel.OfficesList = this.officeService.GetAllOffices();
-
             if (!ModelState.IsValid)
             {
-                return this.View(shipmentModel);
-            }*/
+                shipmentModel.Request = this.shipmentService.GetShipmentRequestById(requestId);
+                shipmentModel.ClientsList = this.userService.GetAllUsers().Where(c => c.Id != 1);
+                shipmentModel.DeliveryEmployeesList = this.userService.GetAllUsers().Where(u => u.IsDeliveryEmployee == true);
+                shipmentModel.OfficesList = this.officeService.GetAllOffices();
+
+                if (ModelState.Values.Where(x => x.ValidationState == ModelValidationState.Invalid).Count() != 1)
+                {
+                    return this.View(shipmentModel);
+                }
+            }
 
             var request = this.shipmentService.GetShipmentRequestById(requestId);
 
@@ -114,6 +119,8 @@ namespace E_Speed.Controllers
                                                          newShipment.Weight,
                                                          newShipment.AssignedToDeliveryEmployeeId,
                                                          this.User.Id());
+
+            this.shipmentService.DeleteShipmentRequest(requestId);
 
             return this.RedirectToAction("Index");
         }

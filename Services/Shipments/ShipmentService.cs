@@ -99,6 +99,7 @@ namespace E_Speed.Services.Shipments
                 .Select(c => new ShipmentRequestServiceModel
                 {
                     Id = c.Id,
+                    Sender = c.Sender,
                     SenderId = c.SenderId,
                     ReceiverName = c.ReceiverName,
                     ReceiverPhone = c.ReceiverPhone,
@@ -138,10 +139,11 @@ namespace E_Speed.Services.Shipments
             var query = new ShipmentRequestServiceModel
             {
                 Id = shipment.Id,
-                EmployeeComment = shipment.SystemComment,
+                SystemComment = shipment.SystemComment,
                 Method = shipment.Method,
                 ReceiverName = shipment.ReceiverName,
                 ReceiverPhone = shipment.ReceiverPhone,
+                Sender = shipment.Sender,
                 SenderId = shipment.SenderId,
                 Status = shipment.Status,
                 DeliveryAddress = shipment.DeliveryAddress,
@@ -150,6 +152,18 @@ namespace E_Speed.Services.Shipments
             };
 
             return query;
+        }
+
+        public void DeleteShipmentRequest(int requestId)
+        {
+            var shipment = this.data.ShipmentRequests.Find(requestId);
+
+            if (shipment != null)
+            {
+                this.data.ShipmentRequests.Remove(shipment);
+
+                this.data.SaveChanges();
+            }
         }
     }
 }

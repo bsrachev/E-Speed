@@ -46,3 +46,11 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+#italicOption {
+    font-style: italic !important;
+}
+
+.control-label-alt {
+    margin-bottom: 0rem !important;
+}

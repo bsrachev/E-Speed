@@ -24,10 +24,6 @@ namespace E_Speed.Data
 
         public DbSet<EmployeeOffice> EmployeeOffices { get; init; }
 
-        //public DbSet<Client> Clients { get; init; }
-
-        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.HasSequence<int>("ShipmentTrackingNumber")
@@ -67,23 +63,5 @@ namespace E_Speed.Data
 
             base.OnModelCreating(builder);
         }
-
-        //public DbSet<Client> Clients { get; init; }
-
-        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
-
-        //public DbSet<E_Speed.Services.Shipments.ShipmentRequestServiceModel> ShipmentRequestServiceModel { get; set; }
-
-        //public DbSet<Client> Clients { get; init; }
-
-        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
-
-        //public DbSet<E_Speed.Services.Shipments.ShipmentServiceModel> ShipmentServiceModel { get; set; }
-
-        //public DbSet<Client> Clients { get; init; }
-
-        //public DbSet<DeliveryEmployee> DeliveryEmployees { get; init; }
-
-        //public DbSet<E_Speed.Models.Shipments.ShipmentDetailListingViewModel> ShipmentDetailListingViewModel { get; set; }
     }
 }

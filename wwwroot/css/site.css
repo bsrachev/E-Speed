@@ -73,3 +73,7 @@ body {
 #italicOption {
     font-style: italic !important;
 }
+
+.control-label-alt {
+    margin-bottom: 0rem !important;
+}
