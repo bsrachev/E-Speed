@@ -20,7 +20,7 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="/images/android-chrome-192x192.png" width="20" height="20">
                 </a>
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> E_Speed</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> E-Speed</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -32,7 +32,7 @@
                             @if (this.User.IsAdmin())
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Employees" asp-action="Index">Employees</a>
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Employees" asp-action="Index">Users</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="Admin" asp-controller="Offices" asp-action="Index">Offices</a>
@@ -68,7 +68,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.UtcNow.Year - E_Speed - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.UtcNow.Year - E-Speed - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

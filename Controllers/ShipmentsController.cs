@@ -42,21 +42,53 @@ namespace E_Speed.Controllers
         [Authorize]
         public IActionResult Index([FromQuery] AllShipmentQueryModel query)
         {
-            query.Shipments = this.shipmentService.GetAllShipments();
-
             if (this.User.IsOfficeEmployee())
             {
                 query.ShipmentRequests = this.shipmentService.GetAllShipmentRequests();
+                query.Shipments = this.shipmentService.GetAllShipments();
             }
             else
             {
                 query.ShipmentRequests = this.shipmentService.GetAllShipmentRequests()
                     .Where(r => r.SenderId == this.User.Id());
+                query.Shipments = this.shipmentService.GetAllShipments()
+                    .Where(r => r.SenderId == this.User.Id() || r.ReceiverId == this.User.Id());
             }
 
             return this.View(query);
         }
 
+        [Authorize]
+        public IActionResult CreateRequest()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateRequest(CreateShipmentRequestFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var shipmentRequest = new ShipmentRequest
+            {
+                SenderId = this.User.Id(),
+                ReceiverName = model.ReceiverName,
+                ReceiverPhone = model.ReceiverPhone,
+                DeliveryToOffice = model.DeliveryToOffice,
+                DeliveryAddress = model.DeliveryAddress,
+                Description = model.Description,
+                Method = (ShippingMethod)Enum.Parse(typeof(ShippingMethod), model.Method, true),
+                Status = 0
+            };
+
+            this.shipmentService.CreateShipmentRequest(shipmentRequest);
+
+            return this.RedirectToAction("Index");
+        }
 
         // GET: Shipments/ProcessRequest
         public IActionResult ProcessRequest(int requestId)
@@ -103,7 +135,7 @@ namespace E_Speed.Controllers
             }
             else
             {
-                deliveryAddress = this.officeService.GetOfficeById(newShipment.OfficeId).Address;
+                deliveryAddress = request.DeliveryAddress;
             }
 
             int shipmentId = this.shipmentService.CreateShipment(request.SenderId,

@@ -80,6 +80,8 @@ namespace E_Speed.Services.Shipments
                     Description = c.Description,
                     Receiver = c.ReceiverName,
                     Sender = c.Sender.FullName,
+                    SenderId = c.SenderId,
+                    ReceiverId = c.ReceiverId,
                     Weight = c.Weight,
                     Price = c.Price,
                     ProcessedByOfficeEmployeeId = c.ProcessedByOfficeEmployeeId,

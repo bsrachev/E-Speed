@@ -15,6 +15,10 @@ namespace E_Speed.Services.Shipments
 
         public string Receiver { get; set; }
 
+        public int SenderId { get; set; }
+
+        public int? ReceiverId { get; set; }
+
         public bool DeliveryToOffice { get; set; }
 
         public int? OfficeId { get; set; }

@@ -5,52 +5,54 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>CreateRequest</h1>
+<h1>Create Shipment Request</h1>
 
-<h4>CreateShipmentRequestFormModel</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="CreateRequest">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ReceiverName" class="control-label"></label>
-                <input asp-for="ReceiverName" class="form-control" />
-                <span asp-validation-for="ReceiverName" class="text-danger"></span>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <label asp-for="ReceiverName" class="control-label"></label>
+                    <input asp-for="ReceiverName" class="form-control" />
+                    <span asp-validation-for="ReceiverName" class="text-danger"></span>
+
+
+                    <label asp-for="ReceiverPhone" class="control-label"></label>
+                    <input asp-for="ReceiverPhone" class="form-control" />
+                    <span asp-validation-for="ReceiverPhone" class="text-danger"></span>
+
+
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="DeliveryToOffice" /> Delivery To Office and
+                    </label>
+
+                    <label asp-for="DeliveryAddress" class="control-label"></label>
+                    <input asp-for="DeliveryAddress" class="form-control" />
+                    <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
+
+                </div>
+                <div class="col-md-4">
+
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+
+                    <label asp-for="Method" class="control-label"></label>
+                    <select asp-for="Method" class="form-control">
+                        <option value="" disabled selected>Select a method</option>
+                        <option value="0">Standard</option>
+                        <option value="1">Express</option>
+                        <option value="2">Overnight</option>
+                    </select>
+                    <span asp-validation-for="Method" class="text-danger"></span>
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ReceiverPhone" class="control-label"></label>
-                <input asp-for="ReceiverPhone" class="form-control" />
-                <span asp-validation-for="ReceiverPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DeliveryToOffice" /> @Html.DisplayNameFor(model => model.DeliveryToOffice)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeliveryAddress" class="control-label"></label>
-                <input asp-for="DeliveryAddress" class="form-control" />
-                <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Method" class="control-label"></label>
-                <select asp-for="Method" class="form-control">
-                    <option value="" disabled selected>Select a method</option>
-                    <option value="0">Standard</option>
-                    <option value="1">Express</option>
-                    <option value="2">Overnight</option>
-                </select>
-                <span asp-validation-for="Method" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            <br/>
+            <input type="submit" value="Create" class="btn btn-success" />
         </form>
     </div>
 </div>
