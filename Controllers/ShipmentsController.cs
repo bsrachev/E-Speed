@@ -52,7 +52,9 @@ namespace E_Speed.Controllers
                 query.ShipmentRequests = this.shipmentService.GetAllShipmentRequests()
                     .Where(r => r.SenderId == this.User.Id());
                 query.Shipments = this.shipmentService.GetAllShipments()
-                    .Where(r => r.SenderId == this.User.Id() || r.ReceiverId == this.User.Id());
+                    .Where(r => r.SenderId == this.User.Id() || 
+                           r.ReceiverId == this.User.Id() ||
+                           r.AssignedToDeliveryEmployeeId == this.User.Id());
             }
 
             return this.View(query);
@@ -158,16 +160,40 @@ namespace E_Speed.Controllers
         }
 
         //[Authorize]
-        public IActionResult Details(int? shipmentId)
+        public IActionResult Details(int shipmentId)
         {
             if (shipmentId == null) // || _context.Shipments == null)
             {
                 return NotFound();
             }
 
-            var query = this.shipmentService.GetShipmentById(shipmentId.Value);
+            var query = this.shipmentService.GetShipmentById(shipmentId);
 
             return View(query);
+        }
+
+        public IActionResult Deliver(int shipmentId)
+        {
+            if (shipmentId == null) // || _context.Shipments == null)
+            {
+                return NotFound();
+            }
+
+            this.shipmentService.Deliver(shipmentId);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeclineRequest(int requestId)
+        {
+            if (requestId == null) // || _context.Shipments == null)
+            {
+                return NotFound();
+            }
+
+            this.shipmentService.DeclineRequest(requestId);
+
+            return RedirectToAction("Index");
         }
 
         // GET: Shipments/Edit/5

@@ -1,4 +1,5 @@
 ﻿using E_Speed.Data.Models;
+using E_Speed.Data.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace E_Speed.Models.Shipments
@@ -38,5 +39,8 @@ namespace E_Speed.Models.Shipments
 
         [Required]
         public int AssignedToDeliveryEmployeeId { get; set; }
+
+        [Required]
+        public ShipmentStatus Status { get; set; }
     }
 }

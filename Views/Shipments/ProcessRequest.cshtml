@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Process Request</h1>
+<h1>View Request</h1>
 
 <div>
     <hr />
@@ -61,7 +61,8 @@
     </dl>
 </div>
 
-@if (this.User.IsInRole("OfficeEmployee"))
+@if (this.User.IsInRole("OfficeEmployee") && 
+     Model.Request.Status != E_Speed.Data.Models.Enums.ShipmentStatus.Denied)
 {
     <h4>Create Shipment</h4>
     <hr />
@@ -145,6 +146,9 @@
                     <button type="submit" class="btn btn-success">Create Shipment</button>
                 </div>
             </form>
+            <div>
+                <a asp-action="DeclineRequest" asp-route-requestId="@Model.Request.Id">Decline Request</a>
+            </div>
         </div>
     </div>
 }

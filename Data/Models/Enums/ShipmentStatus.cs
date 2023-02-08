@@ -23,6 +23,6 @@
         Returned = 5,
 
         [Display(Name = "Shipment Request Denied")]
-        RequestDenied = 6
+        Denied = 6
     }
 }

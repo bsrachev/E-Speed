@@ -63,5 +63,7 @@ namespace E_Speed.Data
 
             base.OnModelCreating(builder);
         }
+
+        public DbSet<E_Speed.Services.Shipments.ShipmentServiceModel> ShipmentServiceModel { get; set; }
     }
 }

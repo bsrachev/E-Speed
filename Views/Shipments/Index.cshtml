@@ -65,7 +65,7 @@
                                         <td scope="row" style="text-align:center;">@s.Sender.FullName</td>
                                         <td style="text-align:center;">@s.ReceiverName</td>
                                         <td style="text-align:center;">@s.ReceiverPhone</td>
-                                        <td style="text-align:center;">@s.DeliveryToOffice</td>
+                                        <td style="text-align:center;">@(s.DeliveryToOffice ? "Yes" : "No")</td>
                                         <td style="text-align:center;">@s.DeliveryAddress</td>
                                         <td style="text-align:center;">@s.Method</td>
                                         <td style="text-align:center;">@s.Description</td>
@@ -115,7 +115,7 @@
                                 <td scope="row" style="text-align:center;">@s.DateAccepted.ToShortDateString()</td>
                                 <td style="text-align:center;">@s.Sender</td>
                                 <td style="text-align:center;">@s.Receiver</td>
-                                <td style="text-align:center;">@s.DeliveryToOffice</td>
+                                <td style="text-align:center;">@(s.DeliveryToOffice ? "Yes" : "No")</td>
                                 <td style="text-align:center;">@s.DeliveryAddress</td>
                                 <td style="text-align:center;">@s.Weight</td>
                                 <td style="text-align:center;">@s.Description</td>

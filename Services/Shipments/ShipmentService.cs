@@ -42,7 +42,7 @@ namespace E_Speed.Services.Shipments
                 Description = description,
                 Price = price,
                 Weight = weight,
-                Status = ShipmentStatus.New,
+                Status = ShipmentStatus.Shipped,
                 AssignedToDeliveryEmployeeId = assignedToDeliveryEmployeeId,
                 ProcessedByOfficeEmployeeId = processedByOfficeEmployeeId
             };
@@ -121,14 +121,16 @@ namespace E_Speed.Services.Shipments
             var query = new ShipmentDetailListingViewModel
             {
                 Id = shipment.Id,
-                Sender = shipment.Sender.FullName,
+                Sender = this.data.Users.Where(u => u.Id == shipment.SenderId).FirstOrDefault().FullName,
                 Receiver = shipment.ReceiverName,
                 DateAccepted = shipment.DateAccepted,
                 DeliveryAddress = shipment.DeliveryAddress,
                 DeliveryToOffice = shipment.DeliveryToOffice,
                 Description = shipment.Description,
                 Price = shipment.Price,
-                Weight = shipment.Weight
+                Weight = shipment.Weight,
+                Status = shipment.Status,
+                AssignedToDeliveryEmployeeId = shipment.AssignedToDeliveryEmployeeId
             };
 
             return query;
@@ -166,6 +168,24 @@ namespace E_Speed.Services.Shipments
 
                 this.data.SaveChanges();
             }
+        }
+
+        public void Deliver(int shipmentId)
+        {
+            var shipment = this.data.Shipments.Find(shipmentId);
+
+            shipment.Status = ShipmentStatus.Delivered;
+
+            this.data.SaveChanges();
+        }
+
+        public void DeclineRequest(int requestId)
+        {
+            var request = this.data.ShipmentRequests.Find(requestId);
+
+            request.Status = ShipmentStatus.Denied;
+
+            this.data.SaveChanges();
         }
     }
 }

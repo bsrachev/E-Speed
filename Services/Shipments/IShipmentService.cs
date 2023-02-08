@@ -30,5 +30,9 @@ namespace E_Speed.Services.Shipments
         ShipmentRequestServiceModel GetShipmentRequestById(int requestId);
 
         public void DeleteShipmentRequest(int requestId);
+
+        void Deliver(int shipmentId);
+
+        void DeclineRequest(int requestId);
     }
 }
